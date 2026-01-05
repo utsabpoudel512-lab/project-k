@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="ElderCare - Find trusted caregivers for your loved ones" />
+    <title>ElderCare - Trusted Care for Your Loved Ones</title>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/react-router-dom@6/umd/react-router-dom.production.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f8fafc; }
+        .btn { padding: 0.75rem 1.5rem; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; }
+        .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 25px -5px rgba(102, 126, 234, 0.4); }
+        .btn-secondary { background: white; color: #667eea; border: 2px solid #667eea; }
+        .btn-secondary:hover { background: #667eea; color: white; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+        .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 4rem 0; }
+        .card { background: white; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); padding: 2rem; margin: 1rem 0; }
+        .feature { text-align: center; padding: 2rem; }
+        .testimonial { background: white; border-radius: 12px; padding: 1.5rem; margin: 1rem 0; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); }
+        .header { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(0, 0, 0, 0.1); padding: 1rem 0; position: sticky; top: 0; z-index: 1000; }
+        .nav { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: #667eea; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-link { color: #6b7280; text-decoration: none; font-weight: 500; transition: color 0.2s; }
+        .nav-link:hover { color: #667eea; }
+        .caregiver-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin: 2rem 0; }
+        .caregiver-card { background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: transform 0.2s; }
+        .caregiver-card:hover { transform: translateY(-4px); }
+        .rating { color: #fbbf24; }
+        .form-group { margin-bottom: 1rem; }
+        .form-label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: #374151; }
+        .form-input { width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 8px; font-size: 1rem; }
+        .form-input:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        const { HashRouter as Router, Routes, Route, Link, Navigate } = ReactRouterDOM;
+
+        // Mock Data
+        const mockCaregivers = [
+            { id: 1, name: 'राम बहादुर थापा', specialization: 'Dementia Care', rating: 4.9, reviews: 127, experience: '8 years', hourlyRate: 25, availability: 'Full-time', bio: 'Experienced caregiver specializing in dementia and Alzheimer\'s care.' },
+            { id: 2, name: 'सूर्य कुमार घले', specialization: 'Physical Therapy', rating: 4.8, reviews: 89, experience: '6 years', hourlyRate: 30, availability: 'Part-time', bio: 'Licensed physical therapist with expertise in mobility assistance.' },
+            { id: 3, name: 'गीता शर्मा', specialization: 'Companion Care', rating: 4.7, reviews: 156, experience: '5 years', hourlyRate: 22, availability: 'Full-time', bio: 'Caring companion focused on emotional support and daily living assistance.' }
+        ];
+
+        const testimonials = [
+            { name: 'Ram Khadka', text: 'ElderCare helped us find the perfect caregiver for my mother. The peace of mind is invaluable.', rating: 5 },
+            { name: 'Surya Kumar', text: 'Professional, caring, and reliable. I couldn\'t ask for better care for my father.', rating: 5 },
+            { name: 'Gita Sharma', text: 'The booking process was so easy, and the caregiver exceeded all our expectations.', rating: 5 }
+        ];
+
+        // Components using React.createElement
+        const Header = () => {
+            return React.createElement('header', {className: 'header'},
+                React.createElement('div', {className: 'container'},
+                    React.createElement('nav', {className: 'nav'},
+                        React.createElement('div', {className: 'logo'}, '❤️ ElderCare'),
+                        React.createElement('ul', {className: 'nav-links'},
+                            React.createElement('li', null, React.createElement(Link, {to: '/', className: 'nav-link'}, 'Home')),
+                            React.createElement('li', null, React.createElement(Link, {to: '/caregivers', className: 'nav-link'}, 'Find Caregivers')),
+                            React.createElement('li', null, React.createElement(Link, {to: '/login', className: 'nav-link'}, 'Login')),
+                            React.createElement('li', null, React.createElement(Link, {to: '/register', className: 'nav-link'}, 'Sign Up'))
+                        )
+                    )
+                )
+            );
+        };
+
+        const App = () => {
+            return React.createElement(Router, null,
+                React.createElement('div', null,
+                    React.createElement(Header)
+                )
+            );
+        };
+
+        ReactDOM.render(React.createElement(App), document.getElementById('root'));
+    </script>
+</body>
+</html>
